@@ -1,30 +1,30 @@
-from collections import deque
 class Solution(object):
     def minimumDeleteSum(self, s1, s2):
         """
         :type s1: str
         :type s2: str
         :rtype: int
-        """        
-        if len(s1) > len(s2):
-            s = s2
-            S = s1
-        else:
-            s = s1
-            S = s2        
+        """
+        'Let dp(i, j) be the answer for inputs s1[i:] and s2[j:].'
+        n1 = len(s1)
+        n2 = len(s2)
+        dp = [[float('inf')] * (n2 + 1) for _ in range(n1 + 1)]
+        dp[n1][n2] = 0        
 
-        # 1) надо удалять по возможности буквы которые первые в алфавите
-        # 2) надо удалять меньше букв
-        # по идее ищем наименьшую по длине строку (или s1 в случае равенства) в дальнейшем называем s малую и S большую
-        # мы должны найти подстроку из s в S, удаляя элементы по очереди
-        # dp - мы имеем некоторую подстроку s и ищем ее вхождение в S
-        sum_s = sum(map(ord, s))
-        sum_S = sum(map(ord, S))
+
+        for i in range(n1 - 1, -1, -1):
+            dp[i][n2] = ord(s1[i]) + dp[i + 1][n2]
+        for j in range(n2 - 1, -1, -1):
+            dp[n1][j] = ord(s2[j]) + dp[n1][j + 1]        
         
-
-
         
-
         
+        for i in range(n1 -1, -1, -1):
+            for j in range(n2 - 1, -1, -1):                
+                dp[i][j] = dp[i][n2] + dp[n1][j] - 2  *  sum(map(ord, set(s1[i:]).intersection(set(s2[j:])))) 
+                        
+        return dp[0][0]
 
-Solution().minimumDeleteSum('sea', 'eat')
+
+print(Solution().minimumDeleteSum('leet', 'delete'))
+
