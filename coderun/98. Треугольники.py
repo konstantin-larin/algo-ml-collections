@@ -1,10 +1,112 @@
+# final
+# не учитываем равносторонние треугольники, потому что в целочисленных координатах равносторонних треугольников не существует!
+from collections import defaultdict
+import math
+n = int(input())
+points = []
+for _ in range(n):    
+    x, y = map(int, input().split())
+    points.append((x, y))
+
+
+ans = 0
+
+for i in range(n):
+    dists = defaultdict(list)
+    for j in range(n):
+        if i == j:
+            continue        
+        x1, y1 = points[i]
+        x2, y2 = points[j]                        
+
+        euclid = pow(x2 - x1, 2) + pow(y2 - y1, 2)         
+        dists[euclid].append(j)
+    
+    for dist, ps in dists.items():                      
+        for v1 in range(len(ps)):
+            for v2 in range(v1 + 1, len(ps)):                
+                p1 = ps[v1]
+                p2 = ps[v2]
+                x1, y1 = points[i]
+                x2, y2 = points[p1]
+                x3, y3 = points[p2]
+                s = (x1 - x2) * (y1 - y3) - (x1 - x3) * (y1 - y2)
+                if s != 0:
+                    ans += 1
+print(ans)
+
+
+
+
+# iter 6
+# конечно же на iter 5 time limit exceed
+# вообще iter2 была близка к правильному
+# from collections import defaultdict
+# import math
+# n = int(input())
+# points = []
+# for _ in range(n):    
+#     x, y = map(int, input().split())
+#     points.append((x, y))
+
+
+# ans = 0
+
+# for i in range(n):
+#     dists = defaultdict(list)
+#     for j in range(n):
+#         if i == j:
+#             continue        
+#         x1, y1 = points[i]
+#         x2, y2 = points[j]                        
+
+#         euclid = pow(x2 - x1, 2) + pow(y2 - y1, 2)         
+#         dists[euclid].append(j)
+    
+#     for dist, ps in dists.items():                      
+#         for v1 in range(len(ps)):
+#             for v2 in range(v1 + 1, len(ps)):                
+#                 p1 = ps[v1]
+#                 p2 = ps[v2]
+#                 x1, y1 = points[i]
+#                 x2, y2 = points[p1]
+#                 x3, y3 = points[p2]
+#                 s = (x1 - x2) * (y1 - y3) - (x1 - x3) * (y1 - y2)
+#                 if s != 0:
+#                     ans += 1
+# print(ans)
+
+
 # iter 5
 # решение на iter 4 правильное, но  memory limit exceed
-# Может быть, нужно как-то помечать треугольники, 
-# которые мы уже посчитали, но без хранения всех троек? 
-# Или подойти с другой стороны: считать все равнобедренные, а потом вычесть те, которые посчитались лишний раз?
+# from collections import defaultdict
+# import math
+# n = int(input())
+# points = []
+# for _ in range(n):    
+#     x, y = map(int, input().split())
+#     points.append((x, y))
 
 
+# ans = 0
+
+# for i in range(n):
+#     for j in range(i+1, n):
+#         for k in range(j + 1, n):            
+#             x1, y1 = points[i]
+#             x2, y2 = points[j]
+#             x3, y3 = points[k]            
+#             ab = (x1 - x2, y1 - y2)
+#             ac = (x1 - x3, y1 - y3)
+#             bc = (x2 - x3, y2 - y3)
+#             ab_norm = pow(ab[0], 2) + pow(ab[1], 2)
+#             ac_norm = pow(ac[0], 2) + pow(ac[1], 2)
+#             bc_norm = pow(bc[0], 2) + pow(bc[1], 2)            
+#             s = (x1 - x2) * (y1 - y3) - (x1 - x3) * (y1 - y2)
+#             ans += int(
+#                 (ab_norm == ac_norm or ab_norm == bc_norm or ac_norm == bc_norm) and s != 0
+#             )                        
+# print(ans)
 
 # iter 4 
 # сейчас протестировал на трех точках на одной прямой и мой код это считает
@@ -53,12 +155,12 @@
 # ans = 0
 # for trio in trios:
 #     p1, p2, p3 = trio
-#     x1, y1 = points[p1]
-#     x2, y2 = points[p2]
-#     x3, y3 = points[p3]
-#     s = (x1 - x2) * (y1 - y3) - (x1 - x3) * (y1 - y2)
-#     if s != 0:
-#         ans += 1
+    # x1, y1 = points[p1]
+    # x2, y2 = points[p2]
+    # x3, y3 = points[p3]
+    # s = (x1 - x2) * (y1 - y3) - (x1 - x3) * (y1 - y2)
+    # if s != 0:
+    #     ans += 1
 # print(ans)
 
 # iter 3 
